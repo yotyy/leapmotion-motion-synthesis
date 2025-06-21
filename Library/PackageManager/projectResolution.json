@@ -1,18 +1,18 @@
 {
   "context": {
-    "projectPath": "/Users/yotarosakamoto/Desktop/LeapMotion_mock_q/Packages",
+    "projectPath": "/Users/yotarosakamoto/Desktop/leapmotion-motion-synthesis/Packages",
     "unityVersion": "6000.0.45f1"
   },
   "inputs": [
-    "/Users/yotarosakamoto/Desktop/LeapMotion_mock_q/Packages/manifest.json",
-    "/Users/yotarosakamoto/Desktop/LeapMotion_mock_q/Packages/packages-lock.json",
+    "/Users/yotarosakamoto/Desktop/leapmotion-motion-synthesis/Packages/manifest.json",
+    "/Users/yotarosakamoto/Desktop/leapmotion-motion-synthesis/Packages/packages-lock.json",
     "/Applications/Unity/Hub/Editor/6000.0.45f1/Unity.app/Contents/Resources/PackageManager/BuiltInPackages/BuiltInPackagesCombined.sha1"
   ],
   "outputs": {
     "com.ultraleap.tracking@7.2.0": {
       "name": "com.ultraleap.tracking",
       "displayName": "Ultraleap Tracking",
-      "resolvedPath": "/Users/yotarosakamoto/Desktop/LeapMotion_mock_q/Library/PackageCache/com.ultraleap.tracking@5512b8d671b4",
+      "resolvedPath": "/Users/yotarosakamoto/Desktop/leapmotion-motion-synthesis/Library/PackageCache/com.ultraleap.tracking@5512b8d671b4",
       "fingerprint": "5512b8d671b4c913ecfed56e0da6e5fc109c3c7b",
       "editorCompatibility": "2021.3.0a1",
       "version": "7.2.0",
@@ -22,7 +22,7 @@
     "com.unity.multiplayer.center@1.0.0": {
       "name": "com.unity.multiplayer.center",
       "displayName": "Multiplayer Center",
-      "resolvedPath": "/Users/yotarosakamoto/Desktop/LeapMotion_mock_q/Library/PackageCache/com.unity.multiplayer.center@f3fb577b3546",
+      "resolvedPath": "/Users/yotarosakamoto/Desktop/leapmotion-motion-synthesis/Library/PackageCache/com.unity.multiplayer.center@f3fb577b3546",
       "fingerprint": "f3fb577b3546594b97b8cc34307cd621f60f1c73",
       "editorCompatibility": "6000.0.0a1",
       "version": "1.0.0",

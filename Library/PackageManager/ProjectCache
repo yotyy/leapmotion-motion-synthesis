@@ -1,6 +1,6 @@
 m_ProjectFiles:
   m_ManifestFileStatus:
-    m_FilePath: /Users/yotarosakamoto/Desktop/LeapMotion_mock_q/Packages/manifest.json
+    m_FilePath: /Users/yotarosakamoto/Desktop/leapmotion-motion-synthesis/Packages/manifest.json
     m_PathExists: 1
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
@@ -8,7 +8,7 @@ m_ProjectFiles:
       ticks: 638860819830000000
     m_Hash: 2618672755
   m_LockFileStatus:
-    m_FilePath: /Users/yotarosakamoto/Desktop/LeapMotion_mock_q/Packages/packages-lock.json
+    m_FilePath: /Users/yotarosakamoto/Desktop/leapmotion-motion-synthesis/Packages/packages-lock.json
     m_PathExists: 1
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
@@ -19,7 +19,7 @@ m_EmbeddedPackageManifests:
   m_ManifestsStatus: {}
 m_LocalPackages:
   m_LocalFileStatus: []
-m_ProjectPath: /Users/yotarosakamoto/Desktop/LeapMotion_mock_q/Packages
+m_ProjectPath: /Users/yotarosakamoto/Desktop/leapmotion-motion-synthesis/Packages
 m_EditorVersion: 6000.0.45f1 (d91bd3d4e081)
 m_ResolvedPackages:
 - packageId: com.ultraleap.tracking@7.2.0
@@ -27,7 +27,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 7.2.0
   source: 1
-  resolvedPath: /Users/yotarosakamoto/Desktop/LeapMotion_mock_q/Library/PackageCache/com.ultraleap.tracking@5512b8d671b4
+  resolvedPath: /Users/yotarosakamoto/Desktop/leapmotion-motion-synthesis/Library/PackageCache/com.ultraleap.tracking@5512b8d671b4
   assetPath: Packages/com.ultraleap.tracking
   name: com.ultraleap.tracking
   displayName: Ultraleap Tracking
@@ -179,7 +179,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 1.0.0
   source: 2
-  resolvedPath: /Users/yotarosakamoto/Desktop/LeapMotion_mock_q/Library/PackageCache/com.unity.multiplayer.center@f3fb577b3546
+  resolvedPath: /Users/yotarosakamoto/Desktop/leapmotion-motion-synthesis/Library/PackageCache/com.unity.multiplayer.center@f3fb577b3546
   assetPath: Packages/com.unity.multiplayer.center
   name: com.unity.multiplayer.center
   displayName: Multiplayer Center

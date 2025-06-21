@@ -1,1 +1,1 @@
-/Users/yotarosakamoto/Desktop/LeapMotion_mock_q
+/Users/yotarosakamoto/Desktop/leapmotion-motion-synthesis
