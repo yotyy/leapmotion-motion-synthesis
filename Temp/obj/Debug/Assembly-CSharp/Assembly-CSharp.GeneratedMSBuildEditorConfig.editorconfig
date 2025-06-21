@@ -1,6 +1,6 @@
 is_global = true
 build_property.RootNamespace = 
-build_property.ProjectDir = /Users/yotarosakamoto/Desktop/LeapMotion_mock_q/
+build_property.ProjectDir = /Users/yotarosakamoto/Desktop/leapmotion-motion-synthesis/
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.CsWinRTUseWindowsUIXamlProjections = false

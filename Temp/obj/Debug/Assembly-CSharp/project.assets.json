@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/yotarosakamoto/Desktop/LeapMotion_mock_q/Assembly-CSharp.csproj",
+      "projectUniqueName": "/Users/yotarosakamoto/Desktop/leapmotion-motion-synthesis/Assembly-CSharp.csproj",
       "projectName": "Assembly-CSharp",
-      "projectPath": "/Users/yotarosakamoto/Desktop/LeapMotion_mock_q/Assembly-CSharp.csproj",
+      "projectPath": "/Users/yotarosakamoto/Desktop/leapmotion-motion-synthesis/Assembly-CSharp.csproj",
       "packagesPath": "/Users/yotarosakamoto/.nuget/packages/",
-      "outputPath": "/Users/yotarosakamoto/Desktop/LeapMotion_mock_q/Temp/obj/Debug/Assembly-CSharp/",
+      "outputPath": "/Users/yotarosakamoto/Desktop/leapmotion-motion-synthesis/Temp/obj/Debug/Assembly-CSharp/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/yotarosakamoto/.nuget/NuGet/NuGet.Config"
