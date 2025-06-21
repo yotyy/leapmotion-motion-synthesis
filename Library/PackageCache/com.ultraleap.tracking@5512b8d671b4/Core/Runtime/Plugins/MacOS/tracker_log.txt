@@ -1,1 +1,0 @@
-[2025-06-21 17:06:33.429] [console] [error] Send()#164:  ControlPanel send error: invalid state
