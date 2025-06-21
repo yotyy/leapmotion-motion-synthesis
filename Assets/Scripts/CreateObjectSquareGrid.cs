@@ -3,7 +3,7 @@ using UnityEngine;
 /// <summary>
 /// 10×10 の球を XY 平面に 5 m 間隔で並べるスクリプト。（gridSize と spacing を変えれば汎用）
 /// </summary>
-public class SphereGridSpawner : MonoBehaviour
+public class SphereDuplicater : MonoBehaviour
 {
     [Header("複製する Sphere のプレハブ")]
     public GameObject spherePrefab;

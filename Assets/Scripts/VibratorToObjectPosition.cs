@@ -13,7 +13,7 @@
 
 using UnityEngine;
 
-public class FollowedSphereVibration_HeightMod_Hand : MonoBehaviour
+public class VibratorToObjectPosition : MonoBehaviour
 {
     /*========= 基本振動モード ==========*/
     public enum VibrationMode { None, SinWave, RandomJitter, PerlinNoise }

@@ -1,7 +1,7 @@
 using UnityEngine;
 using Leap;            // core SDK
 
-public class SphereMover : MonoBehaviour
+public class HandFollower_XYZ : MonoBehaviour
 {
     [Header("Leap provider (assign the XR/Service Provider)")]
     public LeapProvider leapProvider;   // drag-drop in Inspector

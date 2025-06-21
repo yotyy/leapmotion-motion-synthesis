@@ -1,7 +1,7 @@
 using UnityEngine;
 using Leap;
 
-public class SphereMoverXY : MonoBehaviour
+public class HandFollower_XY : MonoBehaviour
 {
     [Header("Leap provider (Service Provider)")]
     public LeapProvider leapProvider;

@@ -14,7 +14,7 @@
 using UnityEngine;
 using Leap;
 
-public class FollowedSphereVibration_HeightMod : MonoBehaviour
+public class VibratorToHandPosition : MonoBehaviour
 {
     /*=========Leap providerの登録==========*/
     [Header("Leap provider (assign the XR/Service Provider)")]
