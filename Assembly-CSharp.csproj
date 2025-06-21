@@ -68,7 +68,6 @@
     <Compile Include="Assets/SphereVibration.cs" />
     <Compile Include="Assets/TutorialInfo/Scripts/Readme.cs" />
     <Compile Include="Assets/SphereHandFollower.cs" />
-    <Compile Include="Assets/ControlSphere.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
@@ -1155,12 +1154,12 @@
       <HintPath>Library/ScriptAssemblies/Ultraleap.Tracking.PhysicalHands.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Ultraleap.Tracking.Hands.Editor">
-      <HintPath>Library/ScriptAssemblies/Ultraleap.Tracking.Hands.Editor.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="Unity.Collections.Editor">
       <HintPath>Library/ScriptAssemblies/Unity.Collections.Editor.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary">
+      <HintPath>Library/ScriptAssemblies/Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.VisualScripting.Shared.Editor">
@@ -1179,8 +1178,8 @@
       <HintPath>Library/ScriptAssemblies/Unity.AI.Navigation.Updater.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary">
-      <HintPath>Library/ScriptAssemblies/Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.dll</HintPath>
+    <Reference Include="Ultraleap.Tracking.Hands.Editor">
+      <HintPath>Library/ScriptAssemblies/Ultraleap.Tracking.Hands.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.VisualScripting.Flow.Editor">
