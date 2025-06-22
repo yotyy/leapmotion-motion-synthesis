@@ -124,10 +124,10 @@ MonoBehaviour:
   provider: {fileID: 0}
   waveform: 2
   baseFrequency: 10
-  jitterMax: 10
+  jitterMax: 0.8
   perlinMax: 0.02
   perlinSpeed: 1
-  profile: 1
+  profile: 0
   peakZ: 0
   peakWidth: 0.2
   plateauMinZ: -0.05
@@ -136,4 +136,4 @@ MonoBehaviour:
   rampRefZ: -0.2
   rampGain: 10
   baseAmplitude: 0.02
-  ampMax: 100
+  ampMax: 4

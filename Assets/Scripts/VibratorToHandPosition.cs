@@ -70,6 +70,7 @@ public sealed class VibratorToHandPosition : MonoBehaviour
 
         float ampFactor = GetAmplitudeFactor(provider.PalmWorldPos.z);
         float amp       = Mathf.Clamp(baseAmplitude * ampFactor, 0f, ampMax);
+        Debug.Log(amp);
 
         Vector3 vib = CalculateWaveform(amp);
 
@@ -86,14 +87,13 @@ public sealed class VibratorToHandPosition : MonoBehaviour
             /* ▲: rises to a single peak then falls */
             case AmpProfile.Peak:
             {
-                float d = Mathf.Abs(z - peakZ) / Mathf.Max(peakWidth, 1f);
-                return Mathf.Clamp01(1f - d);                // linear falloff
+                float d = Mathf.Abs(z - peakZ);
+                return Mathf.Pow(2f, 1/d);                // linear falloff
             }
 
             /* ▄: flat top between min & max, zero outside */
             case AmpProfile.Plateau:
             {
-                Debug.Log(Mathf.Pow(2f, plateauAmpGain * baseAmplitude));
                 return (z >= plateauMinZ && z <= plateauMaxZ) ? Mathf.Pow(2f, plateauAmpGain * baseAmplitude) : 1f;
             }
 
