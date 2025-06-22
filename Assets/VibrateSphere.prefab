@@ -127,12 +127,12 @@ MonoBehaviour:
   jitterMax: 10
   perlinMax: 0.02
   perlinSpeed: 1
-  profile: 2
+  profile: 1
   peakZ: 0
   peakWidth: 0.2
   plateauMinZ: -0.05
-  plateauMaxZ: 0.15
-  plateauAmp: 0.03
+  plateauMaxZ: 0.2
+  plateauAmpGain: 100
   rampRefZ: -0.2
   rampGain: 10
   baseAmplitude: 0.02

@@ -37,7 +37,7 @@ public sealed class VibratorToHandPosition : MonoBehaviour
     [Header("Plateau profile  ( ▄ shape )")]
     public float plateauMinZ = -0.05f; // start Z of flat-top
     public float plateauMaxZ =  0.15f; // end Z of flat-top
-    public float plateauAmp  =  0.03f; // flat amplitude
+    public float plateauAmpGain  =  0.03f; // flat amplitude
 
     [Header("Ramp profile  ( ／ shape )")]
     public float rampRefZ   = -0.2f;   // zero point
@@ -86,14 +86,15 @@ public sealed class VibratorToHandPosition : MonoBehaviour
             /* ▲: rises to a single peak then falls */
             case AmpProfile.Peak:
             {
-                float d = Mathf.Abs(z - peakZ) / Mathf.Max(peakWidth, 0.0001f);
+                float d = Mathf.Abs(z - peakZ) / Mathf.Max(peakWidth, 1f);
                 return Mathf.Clamp01(1f - d);                // linear falloff
             }
 
             /* ▄: flat top between min & max, zero outside */
             case AmpProfile.Plateau:
             {
-                return (z >= plateauMinZ && z <= plateauMaxZ) ? plateauAmp / baseAmplitude : 0f;
+                Debug.Log(Mathf.Pow(2f, plateauAmpGain * baseAmplitude));
+                return (z >= plateauMinZ && z <= plateauMaxZ) ? Mathf.Pow(2f, plateauAmpGain * baseAmplitude) : 1f;
             }
 
             /* ／: exponential ramp after ref-height */
