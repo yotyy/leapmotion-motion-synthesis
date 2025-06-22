@@ -122,12 +122,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   provider: {fileID: 0}
-  mode: 1
-  baseAmplitude: 0.02
+  waveform: 2
   baseFrequency: 10
-  maxAmplitude: 0.2
-  referenceZ: -0.2
-  gainPerHeight: 10
-  jitterBaseMax: 0.01
-  perlinBaseMax: 0.02
+  jitterMax: 10
+  perlinMax: 0.02
   perlinSpeed: 1
+  profile: 2
+  peakZ: 0
+  peakWidth: 0.2
+  plateauMinZ: -0.05
+  plateauMaxZ: 0.15
+  plateauAmp: 0.03
+  rampRefZ: -0.2
+  rampGain: 10
+  baseAmplitude: 0.02
+  ampMax: 100

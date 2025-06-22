@@ -7,7 +7,7 @@ public class HandFollower_XY : MonoBehaviour
 
     void Update()
     {
-        if (!provider || !provider.HandDetected) return;
+        if (!provider || !provider.IsHandDetected) return;
 
         // PalmWorldPos に合わせる
         Vector3 target = provider.PalmWorldPos;

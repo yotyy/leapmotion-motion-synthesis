@@ -1,48 +1,114 @@
 using UnityEngine;
 using Leap;
 
-[DefaultExecutionOrder(-100)]               // どの MonoBehaviour より先に走らせる
-public class HandDataProvider : MonoBehaviour
+/// <summary>
+///     Centralised, read-only access to the chosen hand’s palm position.<br/>
+///     – Updates first every frame (<see cref="DefaultExecutionOrder"/> = -100).<br/>
+///     – Singleton (<see cref="Instance"/>) for quick global access.<br/>
+///     – No allocations / no GC.
+/// </summary>
+[DefaultExecutionOrder(-100)]
+public sealed class HandDataProvider : MonoBehaviour
 {
-    [Tooltip("Service Provider (Desktop / XR) をドラッグ")]
-    public LeapProvider leapProvider;
+    /* ────────────────────────────
+     *  Inspector
+     * ──────────────────────────── */
 
-    [Tooltip("追従したい手 (Right / Left)")]
-    public Chirality whichHand = Chirality.Right;
+    [Tooltip("XR / Desktop Service Provider prefab")]
+    [SerializeField] private LeapProvider leapProvider;
 
-    /* ======= 外部から読み取れるプロパティ ======= */
+    [Tooltip("Which hand should be tracked")]
+    [SerializeField] private Chirality trackedHand = Chirality.Right;
+
+    /* ────────────────────────────
+     *  Public read-only API
+     * ──────────────────────────── */
+
+    /// <summary> Palm centre in world metres. Returns <c>Vector3.zero</c> if hand missing. </summary>
     public Vector3 PalmWorldPos { get; private set; } = Vector3.zero;
-    public bool HandDetected { get; private set; }
 
-    /* ======= 他スクリプトが直接参照しやすいようシングルトン化 ======= */
+    /// <summary> <c>true</c> while a matching hand is visible this frame. </summary>
+    public bool   IsHandDetected { get; private set; }
+
+    /// <summary> Quick global access (null if missing from scene). </summary>
     public static HandDataProvider Instance { get; private set; }
 
-    void Awake()
+    /* ────────────────────────────
+     *  Caching
+     * ──────────────────────────── */
+    private Transform providerTransform;
+
+    /* ────────────────────────────
+     *  Unity lifecycle
+     * ──────────────────────────── */
+
+    private void Awake()
     {
+        // ─ Singleton enforcement
         if (Instance && Instance != this)
         {
-            Destroy(gameObject);     // 重複を防ぐ
+            Destroy(gameObject);
             return;
         }
         Instance = this;
+
+        if (!leapProvider)
+            leapProvider = FindObjectOfType<LeapProvider>();
+
+        providerTransform = leapProvider ? leapProvider.transform : null;
     }
 
-    void Update()
-    {
-        if (leapProvider == null) { HandDetected = false; return; }
 
-        Frame frame = leapProvider.CurrentFrame;
-        if (frame == null || frame.Hands.Count == 0)
+    private void Update()
+    {
+        if (!leapProvider)
         {
-            HandDetected = false;
+            SetHandMissing();
             return;
         }
 
-        Hand hand = frame.Hands.Find(h =>
-                     whichHand == Chirality.Right ? h.IsRight : h.IsLeft)
-                   ?? frame.Hands[0];
+        Frame f = leapProvider.CurrentFrame;
+        if (f == null || f.Hands.Count == 0)
+        {
+            SetHandMissing();
+            return;
+        }
 
-        PalmWorldPos = leapProvider.transform.TransformPoint(hand.PalmPosition * 1f);
-        HandDetected = true;
+        Hand hand = GetTrackedHand(f);
+        if (hand == null)
+        {
+            SetHandMissing();
+            return;
+        }
+
+        UpdatePalmPosition(hand);
+    }
+
+    /* ────────────────────────────
+     *  Internal helpers
+     * ──────────────────────────── */
+
+    private void SetHandMissing()
+    {
+        IsHandDetected = false;
+        PalmWorldPos   = Vector3.zero;
+    }
+
+    private Hand GetTrackedHand(Frame frame)
+    {
+        // Try to find requested chirality, otherwise first hand.
+        return frame.Hands.Find(h =>
+                    trackedHand == Chirality.Right ? h.IsRight : h.IsLeft)
+               ?? frame.Hands[0];
+    }
+
+    private void UpdatePalmPosition(Hand hand)
+    {
+        const float MmToM = 1f;
+        PalmWorldPos   = providerTransform
+                       ? providerTransform.TransformPoint(hand.PalmPosition * MmToM)
+                       : Vector3.zero;
+
+        IsHandDetected = true;
     }
 }

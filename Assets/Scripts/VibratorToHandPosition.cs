@@ -1,94 +1,138 @@
 using UnityEngine;
 
-public class VibratorToHandPosition : MonoBehaviour
+/// <summary>
+///  Adds a local “vibration offset” to the object.<br/>
+///  * Hand position is supplied by <see cref="HandDataProvider"/>.<br/>
+///  * Amplitude is modulated by Z-height according to one of 3 profiles.<br/>
+///  * Waveform (Sin / Random / Perlin) is independent of amplitude profile.<br/>
+///  Execution order: after the object has moved (LateUpdate).
+/// </summary>
+[DisallowMultipleComponent]
+public sealed class VibratorToHandPosition : MonoBehaviour
 {
-    /* ---------- Hand データ参照 ---------- */
-    [Tooltip("HandDataProvider をアタッチ (空なら自動検索)")]
-    public HandDataProvider provider;
+    /* ───────────────────────────────── 1. Dependencies ───────────────────────────────── */
 
-    /* ---------- 振動モード ---------- */
-    public enum VibrationMode { None, SinWave, RandomJitter, PerlinNoise }
-    public VibrationMode mode = VibrationMode.SinWave;
+    [SerializeField] private HandDataProvider provider;
 
-    [Header("基準振幅[m] / 周波数[Hz] (Z = referenceZ のとき)")]
-    public float baseAmplitude = 0.001f;  // 1 mm
-    public float baseFrequency = 5f;       // 5 Hz
+    /* ──────────────────────────────── 2. Waveform mode ──────────────────────────────── */
 
-    [Header("振幅の最大値 (安全上限)")]
-    public float maxAmplitude  = 0.03f;    // 3 cm
+    public enum Waveform { None, Sin, Random, Perlin }
+    [SerializeField] private Waveform waveform = Waveform.Sin;
 
-    /* ---------- Z 高さ依存 ---------- */
-    [Header("高さ依存パラメータ")]
-    public float referenceZ     = -0.20f;  // 増幅が始まる高さ
-    public float gainPerHeight  = 1f;      // (+1m で 2 倍)
+    [Header("Waveform parameters")]
+    [Min(0)] public float baseFrequency = 5f;     // Sin [Hz]
+    [Min(0)] public float jitterMax     = 0.01f;  // Random max amp
+    [Min(0)] public float perlinMax     = 0.02f;  // Perlin max amp
+    [Min(0)] public float perlinSpeed   = 1f;
 
-    /* ---------- ランダム / パーリン個別 ---------- */
-    public float jitterBaseMax = 0.01f;
-    public float perlinBaseMax = 0.02f;
-    public float perlinSpeed   = 1f;
+    /* ────────────────────────────── 3. Amplitude profile ────────────────────────────── */
 
-    /* ---------- 内部 ---------- */
-    Vector3 originalLocal;   // 初期ローカル位置
-    float    time;
+    public enum AmpProfile { Peak, Plateau, Ramp }
+    [SerializeField] private AmpProfile profile = AmpProfile.Peak;
+
+    [Header("Peak profile  ( ▲ shape )")]
+    public float peakZ      =  0.1f;   // height of the maximum
+    public float peakWidth  =  0.2f;   // FWHM of the bell (half–width)
+
+    [Header("Plateau profile  ( ▄ shape )")]
+    public float plateauMinZ = -0.05f; // start Z of flat-top
+    public float plateauMaxZ =  0.15f; // end Z of flat-top
+    public float plateauAmp  =  0.03f; // flat amplitude
+
+    [Header("Ramp profile  ( ／ shape )")]
+    public float rampRefZ   = -0.2f;   // zero point
+    public float rampGain   =  10f;     // amp = base * 2^(Δz / gain)
+
+    [Header("Common limits")]
+    [Min(0)] public float baseAmplitude = 0.001f; // starting amp
+    [Min(0)] public float ampMax        = 0.03f;  // safety cap
+
+    /* ─────────────────────────────── 4. Internal state ─────────────────────────────── */
+
+    Vector3 initLocal;
+    float   t;
+
+    /* ──────────────────────────────────────── */
 
     void Awake()
     {
         if (!provider) provider = HandDataProvider.Instance;
-        originalLocal = transform.localPosition;
+        initLocal = transform.localPosition;
     }
 
     void LateUpdate()
     {
-        /* 1. 手が無ければ初期位置に戻し早期リターン */
-        if (provider == null || !provider.HandDetected)
+        if (!provider || !provider.IsHandDetected)
         {
-            transform.localPosition = originalLocal;
+            transform.localPosition = initLocal;
             return;
         }
 
-        /* 2. 高さ差 → 倍率  (2^(Δz/Δh)) */
-        float dz = provider.PalmWorldPos.z - referenceZ;
-        float factor  = Mathf.Pow(2f, dz*gainPerHeight);
+        float ampFactor = GetAmplitudeFactor(provider.PalmWorldPos.z);
+        float amp       = Mathf.Clamp(baseAmplitude * ampFactor, 0f, ampMax);
 
-        /* 3. 共通振幅をクリップして計算 */
-        float ampBase = Mathf.Min(baseAmplitude * factor, maxAmplitude);
+        Vector3 vib = CalculateWaveform(amp);
 
-        /* 4. 振動ベクトルを計算 */
-        Vector3 vib = Vector3.zero;
-        time += Time.deltaTime;
+        transform.localPosition = initLocal + vib;
+        t += Time.deltaTime;
+    }
 
-        switch (mode)
+    /* ─────────────────────────────── Helpers ─────────────────────────────── */
+
+    float GetAmplitudeFactor(float z)
+    {
+        switch (profile)
         {
-            case VibrationMode.SinWave:
+            /* ▲: rises to a single peak then falls */
+            case AmpProfile.Peak:
             {
-                float phase = time * baseFrequency * factor * Mathf.PI * 2f;
-                vib = new Vector3(Mathf.Sin(phase),
-                                  Mathf.Sin(phase + 2f),
-                                  Mathf.Sin(phase + 4f)) * ampBase;
-                break;
+                float d = Mathf.Abs(z - peakZ) / Mathf.Max(peakWidth, 0.0001f);
+                return Mathf.Clamp01(1f - d);                // linear falloff
             }
 
-            case VibrationMode.RandomJitter:
+            /* ▄: flat top between min & max, zero outside */
+            case AmpProfile.Plateau:
             {
-                float amp = Mathf.Min(jitterBaseMax * factor, maxAmplitude);
-                vib = Random.insideUnitSphere * amp;
-                break;
+                return (z >= plateauMinZ && z <= plateauMaxZ) ? plateauAmp / baseAmplitude : 0f;
             }
 
-            case VibrationMode.PerlinNoise:
+            /* ／: exponential ramp after ref-height */
+            case AmpProfile.Ramp:
+            default:
             {
-                float amp = Mathf.Min(perlinBaseMax * factor, maxAmplitude);
-                float n   = Mathf.PerlinNoise( 1f, time * perlinSpeed) - 0.5f;
-                vib = new Vector3(
-                        n,
-                        Mathf.PerlinNoise(10f,  time * perlinSpeed) - 0.5f,
-                        Mathf.PerlinNoise(100f, time * perlinSpeed) - 0.5f)
-                      * (amp * 2f);
-                break;
+                float dz = z - rampRefZ;
+                return dz <= 0 ? 0f : Mathf.Pow(2f, dz * rampGain);
             }
         }
+    }
 
-        /* 5. 適用：ローカル原点 + 振動 */
-        transform.localPosition = originalLocal + vib;
+    Vector3 CalculateWaveform(float amp)
+    {
+        if (amp <= 0f || waveform == Waveform.None) return Vector3.zero;
+
+        switch (waveform)
+        {
+            case Waveform.Sin:
+            {
+                float phase = t * baseFrequency * Mathf.PI * 2f;
+                return new Vector3(Mathf.Sin(phase),
+                                   Mathf.Sin(phase + 2f),
+                                   Mathf.Sin(phase + 4f)) * amp;
+            }
+            case Waveform.Random:
+                return Random.insideUnitSphere * Mathf.Min(amp, jitterMax);
+
+            case Waveform.Perlin:
+            {
+                float n = Mathf.PerlinNoise(1f, t * perlinSpeed) - 0.5f;
+                return new Vector3(
+                           n,
+                           Mathf.PerlinNoise(10f , t * perlinSpeed) - 0.5f,
+                           Mathf.PerlinNoise(100f, t * perlinSpeed) - 0.5f)
+                       * Mathf.Min(amp, perlinMax) * 2f;
+            }
+            default:
+                return Vector3.zero;
+        }
     }
 }

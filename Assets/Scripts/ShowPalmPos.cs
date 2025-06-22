@@ -23,7 +23,7 @@ public class HandPositionDisplay : MonoBehaviour
     {
         if (!provider || !outputText) return;
 
-        if (provider.HandDetected)
+        if (provider.IsHandDetected)
         {
             Vector3 p = provider.PalmWorldPos;     // すでに m 単位
             outputText.text =
