@@ -62,13 +62,16 @@ public sealed class VibratorToHandPosition : MonoBehaviour
 
     void LateUpdate()
     {
-        if (!provider || !provider.IsHandDetected)
-        {
-            transform.localPosition = initLocal;
-            return;
-        }
+        // if (!provider || !provider.IsHandDetected)
+        // {
+        //     transform.localPosition = initLocal;
+        //     return;
+        // }
 
-        float ampFactor = GetAmplitudeFactor(provider.PalmWorldPos.z);
+        bool  hasHand = provider && provider.IsHandDetected;
+        float  z      = hasHand ? provider.PalmWorldPos.z : -0.5f;
+
+        float ampFactor = GetAmplitudeFactor(z);
         float amp       = Mathf.Clamp(baseAmplitude * ampFactor, 0f, ampMax);
         Debug.Log(amp);
 
