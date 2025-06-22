@@ -254,6 +254,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 432918, guid: b9c7aaf0d314cb847a3b2a20e893f1b6, type: 3}
   m_PrefabInstance: {fileID: 1108686674}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &986866093 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 166326, guid: b9c7aaf0d314cb847a3b2a20e893f1b6, type: 3}
+  m_PrefabInstance: {fileID: 1108686674}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1007391936
 GameObject:
   m_ObjectHideFlags: 0
@@ -409,19 +414,36 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 432918, guid: b9c7aaf0d314cb847a3b2a20e893f1b6, type: 3}
       insertIndex: -1
       addedObject: {fileID: 317043495}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 166326, guid: b9c7aaf0d314cb847a3b2a20e893f1b6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1137382729}
   m_SourcePrefab: {fileID: 100100000, guid: b9c7aaf0d314cb847a3b2a20e893f1b6, type: 3}
 --- !u!114 &1137382728 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 11435192, guid: b9c7aaf0d314cb847a3b2a20e893f1b6, type: 3}
   m_PrefabInstance: {fileID: 1108686674}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 986866093}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 025cc0fa7b46aa541aba29d28d35ac09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1137382729
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 986866093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd3291291bb4848278733afcd8ee3fbf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leapProvider: {fileID: 1137382728}
+  whichHand: 1
 --- !u!1 &1224284602
 GameObject:
   m_ObjectHideFlags: 0
@@ -626,9 +648,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1318058554}
   - component: {fileID: 1318058556}
-  - component: {fileID: 1318058553}
   - component: {fileID: 1318058555}
-  - component: {fileID: 1318058552}
   - component: {fileID: 1318058557}
   m_Layer: 0
   m_Name: SphereFamily
@@ -637,44 +657,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1318058552
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1318058551}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 78b011396d1194a109f4805842b2c16d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  leapProvider: {fileID: 1137382728}
-  priorityHand: 1
-  vibration: 1
-  baseAmplitude: 0.001
-  baseFrequency: 5
-  maxAmplitude: 0.15
-  referenceZ: -0.2
-  gainPerHeight: 100
-  jitterBaseMax: 0.02
-  perlinBaseMax: 0.05
-  perlinSpeed: 1
---- !u!114 &1318058553
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1318058551}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c44e31bcf4a8a4490afac6504266d5f8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  leapProvider: {fileID: 1137382728}
-  moveSpeed: 10
-  priorityHand: 1
 --- !u!224 &1318058554
 RectTransform:
   m_ObjectHideFlags: 0
@@ -706,9 +688,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24e9c37a72f1d4dbd8f2fc22629c722e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  leapProvider: {fileID: 1137382728}
+  provider: {fileID: 1137382729}
   moveSpeed: 20
-  priorityHand: 1
 --- !u!114 &1318058556
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -721,7 +702,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c193eadfeaae49b3ba9b1630c2c4711, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spherePrefab: {fileID: 3849509409363888299, guid: aac3a6ec8a6f54ad3bd97ea1c8958edd, type: 3}
+  spherePrefab: {fileID: 6423284881567086496, guid: 619191385e937499aa5ba2697a03ff4d, type: 3}
   gridSize: 20
   spacing: 5
 --- !u!223 &1318058557
@@ -797,9 +778,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cf8ea36d9837411fb4d9be7a6b9a6bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  leapProvider: {fileID: 1137382728}
+  provider: {fileID: 0}
   outputText: {fileID: 1946023152}
-  handChoice: 2
 --- !u!114 &1946023152
 MonoBehaviour:
   m_ObjectHideFlags: 0

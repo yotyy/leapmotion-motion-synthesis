@@ -1,41 +1,36 @@
 using UnityEngine;
 using TMPro;
-using Leap;
 
+/// <summary>
+/// HandDataProvider が更新した palm 座標を HUD に表示するだけの軽量スクリプト
+/// </summary>
 public class HandPositionDisplay : MonoBehaviour
 {
-    public LeapProvider leapProvider;
-    public TextMeshProUGUI outputText;
+    [Tooltip("対象となる HandDataProvider (Left / Right など)")]
+    public HandDataProvider provider;          // ← Inspector でドラッグ
 
-    public enum HandChoice { FirstDetected, Left, Right }
-    public HandChoice handChoice = HandChoice.Right;
+    [Tooltip("表示先 TextMeshPro (UGUI)")]
+    public TextMeshProUGUI  outputText;
+
+    void Awake()
+    {
+        // provider が設定されていない場合はシーンから最初のものを取得
+        if (!provider)
+            provider = FindObjectOfType<HandDataProvider>();
+    }
 
     void Update()
     {
-        Frame frame = leapProvider.CurrentFrame;
-        Hand  hand  = null;
+        if (!provider || !outputText) return;
 
-        if (frame != null && frame.Hands.Count > 0)
+        if (provider.HandDetected)
         {
-            switch (handChoice)
-            {
-                case HandChoice.Left:
-                    hand = frame.Hands.Find(h => h.IsLeft);
-                    break;
-                case HandChoice.Right:
-                    hand = frame.Hands.Find(h => h.IsRight);
-                    break;
-                case HandChoice.FirstDetected:
-                    hand = frame.Hands[0];
-                    break;
-            }
-        }
-
-        if (hand != null)
-        {
-            Vector3 posM = hand.PalmPosition * 1f;
+            Vector3 p = provider.PalmWorldPos;     // すでに m 単位
             outputText.text =
-                $"PalmPos (m)\nX: {posM.x:F3}\nY: {posM.y:F3}\nZ: {posM.z:F3}";
+                $"Palm Pos (m)\n" +
+                $"X: {p.x:F3}\n" +
+                $"Y: {p.y:F3}\n" +
+                $"Z: {p.z:F3}";
         }
         else
         {

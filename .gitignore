@@ -1,0 +1,41 @@
+# --- Unity (生成物) -------------------------
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Uu]ser[Ss]ettings/
+[Mm]emoryCaptures/
+[Rr]ecordings/
+[Dd]ebugLogs/
+# -------------------------------------------
+
+# IDE / ビルドシステム
+.vs/
+.gradle/
+ExportedObj/
+*.csproj
+*.unityproj
+*.sln
+*.user
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+
+# OS
+.DS_Store
+
+# Crash / テスト
+mono_crash.*
+sysinfo.txt
+InitTestScene*.unity*
+/Assets/AddressableAssetsData/*/*.bin*
+
+# Rider
+/Assets/Plugins/Editor/JetBrains*
+*.DotSettings.user
