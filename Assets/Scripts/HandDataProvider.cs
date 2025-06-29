@@ -104,11 +104,12 @@ public sealed class HandDataProvider : MonoBehaviour
 
     private void UpdatePalmPosition(Hand hand)
     {
-        const float MmToM = 1f;
-        PalmWorldPos   = providerTransform
-                       ? providerTransform.TransformPoint(hand.PalmPosition * MmToM)
-                       : Vector3.zero;
+        const float MmToM = 1f;       // ← 修正ポイント
+        PalmWorldPos = providerTransform
+            ? providerTransform.TransformPoint(hand.PalmPosition * MmToM)
+            : Vector3.zero;
 
         IsHandDetected = true;
     }
+
 }

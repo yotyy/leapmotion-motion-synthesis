@@ -10,6 +10,7 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public sealed class VibratorToHandPosition : MonoBehaviour
 {
+
     /* ───────────────────────────────── 1. Dependencies ───────────────────────────────── */
 
     [SerializeField] private HandDataProvider provider;
@@ -68,17 +69,18 @@ public sealed class VibratorToHandPosition : MonoBehaviour
         //     return;
         // }
 
-        bool  hasHand = provider && provider.IsHandDetected;
-        float  z      = hasHand ? provider.PalmWorldPos.z : -0.5f;
+        bool hasHand = provider && provider.IsHandDetected;
+        float z = hasHand ? provider.PalmWorldPos.z : -0.5f;
 
         float ampFactor = GetAmplitudeFactor(z);
-        float amp       = Mathf.Clamp(baseAmplitude * ampFactor, 0f, ampMax);
+        float amp = Mathf.Clamp(baseAmplitude * ampFactor, 0f, ampMax);
         Debug.Log(amp);
 
         Vector3 vib = CalculateWaveform(amp);
 
         transform.localPosition = initLocal + vib;
         t += Time.deltaTime;
+        
     }
 
     /* ─────────────────────────────── Helpers ─────────────────────────────── */
